@@ -1,0 +1,28 @@
+<Plugin name="Chilli's" version="0.5.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Proximity-Engine/Proximity/0.5.0/plugin.xsd">
+    <Options>
+        <Enumeration id="art_source" default="BEST">
+            <EnumerationValue value="NONE"/>
+            <EnumerationValue value="BEST"/>
+            <EnumerationValue value="SCRYFALL"/>
+            <EnumerationValue value="LOCAL"/>
+        </Enumeration>
+        <ToggleOption id="use_card_back" default="true"/>
+        <ToggleOption id="save_file_with_card_number" default="true"/>
+        <ToggleOption id="reminder_text" default="true"/>
+        <StringOption id="set_symbol"/>
+    </Options>
+    <Tasks>
+        <!-- DataPreparation and DataFinalization tasks are executed in the order that they are declared -->
+        <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.Miscellaneous::split"/>
+        <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.TypeParsing::apply"/>
+        <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.ColorParsing::apply"/>
+        <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.Miscellaneous::apply"/>
+        <TemplateModification location="dev.hephaestus.proximity.mtg.ArtDiscovery"/>
+
+        <!-- Order does not matter for non-preparation tasks -->
+        <TextFunction location="dev.hephaestus.proximity.mtg.text.OracleText" name="oracle_text"/>
+        <TextFunction location="dev.hephaestus.proximity.mtg.text.FlavorText" name="flavor_text"/>
+    </Tasks>
+</Plugin>
