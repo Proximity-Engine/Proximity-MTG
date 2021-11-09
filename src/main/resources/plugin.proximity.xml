@@ -1,4 +1,4 @@
-<Plugin name="Chilli's" version="0.5.0"
+<Plugin name="Proximity-MTG" version="0.5.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Proximity-Engine/Proximity/0.5.0/plugin.xsd">
     <Options>
