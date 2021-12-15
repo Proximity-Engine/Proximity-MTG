@@ -16,6 +16,8 @@ public final class MTGValues {
     public static final Value<String> MAIN_TYPES = Value.createString("mtg", "main_types");
     public static final Value<Integer> TYPE_COUNT = Value.createInteger("mtg", "type_count");
     public static final Value<Boolean> IS_CARD_BACK = Value.createBoolean("mtg", "is_card_back");
+    public static final Value<Boolean> IS_ORIGINAL_TWO_SIDED_CARD = Value.createBoolean("mtg", "is_original_two_sided_card");
+    public static final Value<String> MANA_ABILITY = Value.createString("mtg", "mana_ability");
 
     // Options
     public static final Value<Boolean> USE_CARD_BACK = Value.createBoolean("options", "use_card_back");
@@ -23,6 +25,7 @@ public final class MTGValues {
     public static final Value<ArtSource> ART_SOURCE = Value.createEnum(ArtSource::valueOf, "options", "art_source");
     public static final Value<Boolean> REMINDER_TEXT = Value.createBoolean("options", "reminder_text");
     public static final Value<String> SET_SYMBOL = Value.createString("options", "set_symbol");
+    public static final Value<Boolean> REMOVE_ORIGINAL_CARD = Value.createBoolean("options", "remove_original_card");
 
     private MTGValues() {
     }

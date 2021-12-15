@@ -11,6 +11,7 @@
         <ToggleOption id="use_card_back" default="true"/>
         <ToggleOption id="save_file_with_card_number" default="true"/>
         <ToggleOption id="reminder_text" default="true"/>
+        <ToggleOption id="remove_original_card" default="true"/>
         <StringOption id="set_symbol"/>
     </Options>
     <Tasks>

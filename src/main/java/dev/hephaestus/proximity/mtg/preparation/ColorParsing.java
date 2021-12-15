@@ -105,37 +105,45 @@ public final class ColorParsing {
                 colorList.add(new JsonPrimitive(color));
             }
 
-            colorList.sort((c1, c2) -> switch (c1.getAsString()) {
-                case "W" -> switch (c2.getAsString()) {
-                    case "U", "B" -> -1;
-                    case "R", "G" -> 1;
-                    default -> 0;
-                };
-                case "U" -> switch (c2.getAsString()) {
-                    case "B", "R" -> -1;
-                    case "W", "G" -> 1;
-                    default -> 0;
-                };
-                case "B" -> switch (c2.getAsString()) {
-                    case "R", "G" -> -1;
-                    case "W", "U" -> 1;
-                    default -> 0;
-                };
-                case "G" -> switch (c2.getAsString()) {
-                    case "W", "U" -> -1;
-                    case "B", "R" -> 1;
-                    default -> 0;
-                };
-                case "R" -> switch (c2.getAsString()) {
-                    case "G", "W" -> -1;
-                    case "B", "U" -> 1;
-                    default -> 0;
-                };
-                default -> 0;
-            });
+            sort(colorList);
+
+            if (card.has("color_indicator")) {
+                sort(card.getAsJsonArray("color_indicator"));
+            }
 
             card.add("colors", colorList);
             MTGValues.COLOR_COUNT.set(card, colorList.size());
         }
+    }
+
+    private static void sort(JsonArray colorList) {
+        colorList.sort((c1, c2) -> switch (c1.getAsString()) {
+            case "W" -> switch (c2.getAsString()) {
+                case "U", "B" -> -1;
+                case "R", "G" -> 1;
+                default -> 0;
+            };
+            case "U" -> switch (c2.getAsString()) {
+                case "B", "R" -> -1;
+                case "W", "G" -> 1;
+                default -> 0;
+            };
+            case "B" -> switch (c2.getAsString()) {
+                case "R", "G" -> -1;
+                case "W", "U" -> 1;
+                default -> 0;
+            };
+            case "G" -> switch (c2.getAsString()) {
+                case "W", "U" -> -1;
+                case "B", "R" -> 1;
+                default -> 0;
+            };
+            case "R" -> switch (c2.getAsString()) {
+                case "G", "W" -> -1;
+                case "B", "U" -> 1;
+                default -> 0;
+            };
+            default -> 0;
+        });
     }
 }

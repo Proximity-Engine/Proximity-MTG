@@ -24,6 +24,8 @@ public class ArtDiscovery implements TemplateModification {
             case BEST:
             case SCRYFALL:
                 apply(card.getAsString("image_uris", "art_crop"), layers);
+
+                if (artSource == ArtSource.SCRYFALL) return;
             case LOCAL:
                 String cardName = card.getAsString("name").replaceAll(Miscellaneous.FILE_CHARS, " ");
                 String setCode = card.getAsString("set");
