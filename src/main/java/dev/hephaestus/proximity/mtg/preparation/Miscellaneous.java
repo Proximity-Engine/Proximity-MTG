@@ -1,5 +1,6 @@
 package dev.hephaestus.proximity.mtg.preparation;
 
+import dev.hephaestus.proximity.Proximity;
 import dev.hephaestus.proximity.api.DataSet;
 import dev.hephaestus.proximity.api.TaskScheduler;
 import dev.hephaestus.proximity.api.Values;
@@ -138,6 +139,32 @@ public final class Miscellaneous {
 
             if (card.has("toughness")) {
                 card.addProperty("toughness", card.getAsString("toughness").replaceAll("\\*", "\u2605"));
+            }
+
+            if (card.has("artist") && MTGValues.MAX_ARTIST_NAME_LENGTH.exists(card) && card.getAsString("artist").length() > MTGValues.MAX_ARTIST_NAME_LENGTH.get(card)) {
+                String artist = card.getAsString("artist");
+
+                artist = switch ((int) artist.chars().filter(c -> c == ' ').count()) {
+                    case 0 -> artist;
+                    case 1 -> {
+                        int space = artist.indexOf(" ");
+
+                        yield artist.substring(0, space + 1) + artist.charAt(space + 1) + ".";
+                    }
+                    case 2 -> {
+                        int firstSpace = artist.indexOf(" ");
+                        int secondSpace = artist.lastIndexOf(" ");
+
+                        yield artist.substring(0, firstSpace + 1) + artist.charAt(firstSpace + 1) + "." + artist.substring(secondSpace);
+                    }
+                    default -> {
+                        Proximity.LOG.warn("Can't shorten artist name '" + artist + "'");
+
+                        yield artist;
+                    }
+                };
+
+                card.addProperty("artist", artist);
             }
 
             JsonArray types = MTGValues.TYPES.get(card);
