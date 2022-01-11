@@ -27,6 +27,7 @@ public final class MTGValues {
     public static final Value<String> SET_SYMBOL = Value.createString("options", "set_symbol");
     public static final Value<Boolean> REMOVE_ORIGINAL_CARD = Value.createBoolean("options", "remove_original_card");
     public static final Value<Integer> MAX_ARTIST_NAME_LENGTH = Value.createInteger("options", "max_artist_name_length");
+    public static final Value<String> FOLDER = Value.createString("options", "folder");
 
     private MTGValues() {
     }

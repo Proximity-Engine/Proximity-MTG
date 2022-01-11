@@ -13,6 +13,7 @@
         <ToggleOption id="reminder_text" default="true"/>
         <ToggleOption id="remove_original_card" default="true"/>
         <StringOption id="set_symbol"/>
+        <StringOption id="folder"/>
     </Options>
     <Tasks>
         <!-- DataPreparation and DataFinalization tasks are executed in the order that they are declared -->

@@ -20,6 +20,10 @@ public final class Miscellaneous {
     private static void parseFace(JsonObject cardFace, String face) {
         JsonArray path = new JsonArray();
 
+        if (MTGValues.FOLDER.exists(cardFace)) {
+            path.add(MTGValues.FOLDER.get(cardFace));
+        }
+
         path.add(face + "s");
 
         StringBuilder fileName = new StringBuilder();
@@ -68,6 +72,10 @@ public final class Miscellaneous {
 
                     JsonArray path = new JsonArray();
 
+                    if (MTGValues.FOLDER.exists(card)) {
+                        path.add(MTGValues.FOLDER.get(card));
+                    }
+
                     path.add("substitutions");
 
                     StringBuilder fileName = new StringBuilder();
@@ -94,6 +102,10 @@ public final class Miscellaneous {
             } else {
                 JsonArray frontPath = new JsonArray();
 
+                if (MTGValues.FOLDER.exists(card)) {
+                    frontPath.add(MTGValues.FOLDER.get(card));
+                }
+
                 frontPath.add("fronts");
                 frontPath.add(Values.ITEM_NUMBER.get(card) + " " + card.getAsString("name").replaceAll(FILE_CHARS, " "));
                 MTGValues.IS_ORIGINAL_TWO_SIDED_CARD.set(card, false);
@@ -103,6 +115,10 @@ public final class Miscellaneous {
 
                 if (MTGValues.USE_CARD_BACK.get(card)) {
                     JsonArray backPath = new JsonArray();
+
+                    if (MTGValues.FOLDER.exists(card)) {
+                        backPath.add(MTGValues.FOLDER.get(card));
+                    }
 
                     backPath.add("backs");
                     backPath.add(Values.ITEM_NUMBER.get(card) + " " + card.getAsString("name").replaceAll(FILE_CHARS, " "));
@@ -119,6 +135,10 @@ public final class Miscellaneous {
         }
 
         tasks.forEach(Runnable::run);
+    }
+
+    private static void parsePlaneswalker(JsonObject card) {
+        // TODO
     }
 
     public static void apply(TaskScheduler scheduler, DataSet cards, JsonObject overrides) {
@@ -183,6 +203,10 @@ public final class Miscellaneous {
                         MTGValues.MANA_ABILITY.set(card, line);
                     }
                 }
+            }
+
+            if (types.contains("planeswalker")) {
+                parsePlaneswalker(card);
             }
 
             card.copyAll(overrides);
