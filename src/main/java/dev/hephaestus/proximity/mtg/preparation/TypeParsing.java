@@ -32,6 +32,7 @@ public final class TypeParsing {
     public static void apply(TaskScheduler scheduler, DataSet cards, JsonObject overrides) {
         for (JsonObject card : cards) {
             JsonArray types = MTGValues.TYPES.get(card);
+            JsonArray primaryTypes = MTGValues.PRIMARY_TYPES.get(card);
             String typeLine = card.getAsString("type_line");
             int mainTypeCount = 0;
             StringBuilder mainTypes = new StringBuilder();
@@ -40,22 +41,29 @@ public final class TypeParsing {
                 mainTypes.append(typeLine.split("\u2014")[1]);
             }
 
-            for (String string : typeLine.split("\u2014")) {
+            String[] strings = typeLine.split("\u2014");
+
+            for (int i = 0, stringsLength = strings.length; i < stringsLength; i++) {
+                String string = strings[i];
                 String[] split = string.split(" ");
 
-                for (int i = 0; i < split.length; i++) {
-                    String s = split[i];
+                for (int j = 0; j < split.length; j++) {
+                    String s = split[j];
                     String type = s.toLowerCase(Locale.ROOT);
 
                     types.add(type);
 
                     if (MAIN_TYPES.contains(type)) {
+                        if (i == 0) {
+                            primaryTypes.add(type);
+                        }
+
                         mainTypeCount++;
 
                         if (!typeLine.contains("\u2014")) {
                             mainTypes.append(s);
 
-                            if (i < split.length - 1) {
+                            if (j < split.length - 1) {
                                 mainTypes.append(" ");
                             }
                         }

@@ -13,9 +13,26 @@ import dev.hephaestus.proximity.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Miscellaneous {
     public static final String FILE_CHARS = "[^a-zA-Z0-9.,'& ()-]";
+    private static final String[] KEYWORD_ABILITIES = new String[] {
+            "Deathtouch",
+            "Defender",
+            "Double strike",
+            "First strike",
+            "Flying",
+            "Haste",
+            "Hexproof",
+            "Indestructible",
+            "Lifelink",
+            "Reach",
+            "Shroud",
+            "Trample",
+            "Vigilance",
+            "Menace"
+    };
 
     private static void parseFace(JsonObject cardFace, String face) {
         JsonArray path = new JsonArray();
@@ -57,6 +74,22 @@ public final class Miscellaneous {
         return new Pair<>(front, back);
     }
 
+    public static void translate(TaskScheduler scheduler, DataSet cards, JsonObject overrides) {
+        for (JsonObject card : cards) {
+            if (card.has("printed_name")) {
+                card.add("name", card.get("printed_name"));
+            }
+
+            if (card.has("printed_text")) {
+                card.add("oracle_text", card.get("printed_text"));
+            }
+
+            if (card.has("printed_type_line")) {
+                card.add("type_line", card.get("printed_type_line"));
+            }
+        }
+    }
+
     public static void split(TaskScheduler scheduler, DataSet cards, JsonObject overrides) {
         List<Runnable> tasks = new ArrayList<>();
 
@@ -83,7 +116,6 @@ public final class Miscellaneous {
                     if (MTGValues.SAVE_FILE_WITH_CARD_NUMBER.get(card)) {
                         fileName.append(Values.ITEM_NUMBER.get(card)).append("s").append(" ");
                     }
-
 
                     fileName.append(card.getAsString("name").replace("//", "&").replaceAll(FILE_CHARS, " "));
                     path.add(fileName.toString());
@@ -194,6 +226,31 @@ public final class Miscellaneous {
 
                 if (oracle.startsWith("(") && oracle.endsWith(")") && !oracle.contains("\n")) {
                     card.remove("oracle_text");
+                }
+            }
+
+            if (MTGValues.TRUNCATE_FLASH.get(card) && card.has("oracle_text") && card.getAsString("oracle_text").startsWith("Flash")) {
+                String oracle = card.getAsString("oracle_text");
+                List<String> lines = oracle.lines().collect(Collectors.toList());
+
+                if (lines.size() > 1) {
+                    String firstLine = lines.get(1);
+                    StringBuilder oracleText = new StringBuilder();
+
+                    for (String keyword : KEYWORD_ABILITIES) {
+                        if (oracleText.isEmpty() && firstLine.startsWith(keyword)) {
+                            oracleText.append("Flash, ")
+                                    .append(Character.toLowerCase(firstLine.charAt(0)))
+                                    .append(firstLine.substring(1));
+                            break;
+                        }
+                    }
+
+                    for (int i = 2; i < lines.size(); ++i) {
+                        oracleText.append('\n').append(lines.get(i));
+                    }
+
+                    card.addProperty("oracle_text", oracleText.toString());
                 }
             }
 

@@ -54,7 +54,7 @@ public abstract class ParseText implements TextFunction {
                     if (word.length() > 0 || job.result.size() > 0) {
                         job.result.add(Collections.singletonList(new TextComponent.Literal(
                                 job.italic ? job.italicStyle : job.baseStyle,
-                                this.newLine
+                                input.codePointAt(i + 1) == 0x2022 /* Bullet points */ ? "\n" : this.newLine
                         )));
                     }
                 }

@@ -12,6 +12,7 @@
         <ToggleOption id="save_file_with_card_number" default="true"/>
         <ToggleOption id="reminder_text" default="true"/>
         <ToggleOption id="remove_original_card" default="true"/>
+        <ToggleOption id="truncate_flash" default="false"/>
         <StringOption id="set_symbol"/>
         <StringOption id="folder"/>
     </Options>
@@ -21,6 +22,7 @@
         <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.TypeParsing::apply"/>
         <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.ColorParsing::apply"/>
         <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.Miscellaneous::apply"/>
+        <DataPreparation location="dev.hephaestus.proximity.mtg.preparation.Miscellaneous::translate"/>
         <TemplateModification location="dev.hephaestus.proximity.mtg.ArtDiscovery"/>
 
         <!-- Order does not matter for non-preparation tasks -->

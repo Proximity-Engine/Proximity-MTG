@@ -13,6 +13,7 @@ public final class MTGValues {
     public static final Value<Boolean> HYBRID = Value.createBoolean("mtg", "hybrid");
     public static final Value<String> MUTATE_TEXT = Value.createString("mtg", "mutate_text");
     public static final Value<JsonArray> TYPES = Value.createArray("mtg", "types");
+    public static final Value<JsonArray> PRIMARY_TYPES = Value.createArray("mtg", "primary_types");
     public static final Value<String> MAIN_TYPES = Value.createString("mtg", "main_types");
     public static final Value<Integer> TYPE_COUNT = Value.createInteger("mtg", "type_count");
     public static final Value<Boolean> IS_CARD_BACK = Value.createBoolean("mtg", "is_card_back");
@@ -28,6 +29,7 @@ public final class MTGValues {
     public static final Value<Boolean> REMOVE_ORIGINAL_CARD = Value.createBoolean("options", "remove_original_card");
     public static final Value<Integer> MAX_ARTIST_NAME_LENGTH = Value.createInteger("options", "max_artist_name_length");
     public static final Value<String> FOLDER = Value.createString("options", "folder");
+    public static final Value<Boolean> TRUNCATE_FLASH = Value.createBoolean("options", "truncate_flash");
 
     private MTGValues() {
     }
