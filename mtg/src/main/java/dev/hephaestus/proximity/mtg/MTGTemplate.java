@@ -348,7 +348,7 @@ public abstract class MTGTemplate<D extends BaseMagicCard> extends Template<D> {
                 ? Optional.of(this.ptBounds)
                 : Optional.empty();
 
-        var oracleStyle = new TextStyle().setFontName("MPlantin").setItalicFontName("MPlantin-Italic").setSize(9.0).setColor(Color.BLACK);
+        var oracleStyle = new TextStyle().setFontName("PlantinMTProRg").setItalicFontName("PlantinMTProRgIt").setSize(9.0).setColor(Color.BLACK);
 
         var oracle = parent.textBox("oracle", 253, this.textboxBounds.y, 1670, height).padding().set(new Padding(20, 20, 20, 20))
                 .style().set(oracleStyle).wraps().add(ptWrap)
