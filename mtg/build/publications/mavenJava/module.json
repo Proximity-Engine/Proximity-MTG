@@ -1,0 +1,185 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "dev.hephaestus.proximity",
+    "module": "mtg",
+    "version": "1.0.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 16,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "application",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "json",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "utilities",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mtg-1.0.0-SNAPSHOT.jar",
+          "url": "mtg-1.0.0-SNAPSHOT.jar",
+          "size": 42678,
+          "sha512": "731c8e24acea2b090cbd93ba6d64608c5a3c09e7bcb1bbe6ed6ed4a5b3b16a3e45b3c1e93d42fbde724ee1471e8f4055238c80451157cbe3bca86ebbe2415e17",
+          "sha256": "b7d8ce849fbebc243677f23433db1f4ccfa884e637877a2d4357edbae0784d9c",
+          "sha1": "1f1bb3c7a8e568b37bea3e998c49f0e5523f37d4",
+          "md5": "da958e6710e2e209d9592589a64e4c5f"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 16,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.openjfx",
+          "module": "javafx-base",
+          "version": {
+            "requires": "19"
+          },
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "javafx-base",
+              "type": "jar",
+              "extension": "jar",
+              "classifier": "win"
+            }
+          }
+        },
+        {
+          "group": "org.openjfx",
+          "module": "javafx-graphics",
+          "version": {
+            "requires": "19"
+          },
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "javafx-graphics",
+              "type": "jar",
+              "extension": "jar",
+              "classifier": "win"
+            }
+          }
+        },
+        {
+          "group": "org.openjfx",
+          "module": "javafx-controls",
+          "version": {
+            "requires": "19"
+          },
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "javafx-controls",
+              "type": "jar",
+              "extension": "jar",
+              "classifier": "win"
+            }
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "31.0.1-jre"
+          }
+        },
+        {
+          "group": "org.jetbrains",
+          "module": "annotations",
+          "version": {
+            "requires": "23.0.0"
+          }
+        },
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "application",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "json",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "utilities",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "mtg-1.0.0-SNAPSHOT.jar",
+          "url": "mtg-1.0.0-SNAPSHOT.jar",
+          "size": 42678,
+          "sha512": "731c8e24acea2b090cbd93ba6d64608c5a3c09e7bcb1bbe6ed6ed4a5b3b16a3e45b3c1e93d42fbde724ee1471e8f4055238c80451157cbe3bca86ebbe2415e17",
+          "sha256": "b7d8ce849fbebc243677f23433db1f4ccfa884e637877a2d4357edbae0784d9c",
+          "sha1": "1f1bb3c7a8e568b37bea3e998c49f0e5523f37d4",
+          "md5": "da958e6710e2e209d9592589a64e4c5f"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "mtg-1.0.0-SNAPSHOT-sources.jar",
+          "url": "mtg-1.0.0-SNAPSHOT-sources.jar",
+          "size": 17063,
+          "sha512": "39195aa6d9dbc4d837090ba526a407c237b7fb4821e52b974c148a2d6a5874421967db058bc330ba43467e593cb6f10bf565964f267a479230666ec461826867",
+          "sha256": "161dff0302bf396f6c3e4fc5c8c9623f81ba8a757333a427d8908eb01f72779d",
+          "sha1": "5d97a9d71ae9ce521aa8eb183199e4b390b9e95f",
+          "md5": "76f47704db4bd6407b2954c1ea387d94"
+        }
+      ]
+    }
+  ]
+}

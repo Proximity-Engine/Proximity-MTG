@@ -1,0 +1,6 @@
+{
+  id: "scryfall",
+  entrypoints: {
+    data: "dev.hephaestus.proximity.scryfall.ScryfallDataProvider"
+  }
+}

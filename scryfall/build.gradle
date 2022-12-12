@@ -1,0 +1,49 @@
+plugins {
+    id 'proximity.java-conventions'
+    id 'java'
+    id 'java-library'
+    id 'maven-publish'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+group = 'dev.hephaestus.proximity'
+version = '1.0.0-SNAPSHOT'
+
+javafx {
+    version = "19"
+    modules = [ 'javafx.controls' ]
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Quilt'
+        url = 'https://maven.quiltmc.org/repository/release'
+    }
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    api project(':mtg')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}

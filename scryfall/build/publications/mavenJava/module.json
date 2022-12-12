@@ -1,0 +1,143 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "dev.hephaestus.proximity",
+    "module": "scryfall",
+    "version": "1.0.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 16,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "mtg",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "scryfall-1.0.0-SNAPSHOT.jar",
+          "url": "scryfall-1.0.0-SNAPSHOT.jar",
+          "size": 98766,
+          "sha512": "0ca03fd4324601adfd5044c17545bc7af973402bffbfc6fd21f32cc7601d796823fdaff09a90c124a58b5bfda6ba7e0da6225dc673a4c67ca6f834812357e828",
+          "sha256": "7980240a0aff0fa525384dff4bfaab31a562cc5aa2ab2f8827c2abc3320fe863",
+          "sha1": "fb1847b1a2853d84b77e59b737bd395ab887b990",
+          "md5": "d16ba85d396b3ee8d8013716c2a21e44"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 16,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.openjfx",
+          "module": "javafx-base",
+          "version": {
+            "requires": "19"
+          },
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "javafx-base",
+              "type": "jar",
+              "extension": "jar",
+              "classifier": "win"
+            }
+          }
+        },
+        {
+          "group": "org.openjfx",
+          "module": "javafx-graphics",
+          "version": {
+            "requires": "19"
+          },
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "javafx-graphics",
+              "type": "jar",
+              "extension": "jar",
+              "classifier": "win"
+            }
+          }
+        },
+        {
+          "group": "org.openjfx",
+          "module": "javafx-controls",
+          "version": {
+            "requires": "19"
+          },
+          "thirdPartyCompatibility": {
+            "artifactSelector": {
+              "name": "javafx-controls",
+              "type": "jar",
+              "extension": "jar",
+              "classifier": "win"
+            }
+          }
+        },
+        {
+          "group": "dev.hephaestus.proximity",
+          "module": "mtg",
+          "version": {
+            "requires": "1.0.0-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "scryfall-1.0.0-SNAPSHOT.jar",
+          "url": "scryfall-1.0.0-SNAPSHOT.jar",
+          "size": 98766,
+          "sha512": "0ca03fd4324601adfd5044c17545bc7af973402bffbfc6fd21f32cc7601d796823fdaff09a90c124a58b5bfda6ba7e0da6225dc673a4c67ca6f834812357e828",
+          "sha256": "7980240a0aff0fa525384dff4bfaab31a562cc5aa2ab2f8827c2abc3320fe863",
+          "sha1": "fb1847b1a2853d84b77e59b737bd395ab887b990",
+          "md5": "d16ba85d396b3ee8d8013716c2a21e44"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "scryfall-1.0.0-SNAPSHOT-sources.jar",
+          "url": "scryfall-1.0.0-SNAPSHOT-sources.jar",
+          "size": 55894,
+          "sha512": "cc760eddcacde415d5999af2d457bd02acea98105c21e04ccc3cc0a08cc74ce22166cfb472cf1aec59e2fbac206b9b762a0dedbb4897ed99a0fd33b44bcc6728",
+          "sha256": "75fc488cfc319d02a8f705e253d4c01a24e97e31c4675f0c35ee2e752ea297de",
+          "sha1": "f78a6b0e0377f9f9adafa3915bf66036981efe49",
+          "md5": "f3d9ad0540ebe0941fa2b1550f2c98a2"
+        }
+      ]
+    }
+  ]
+}
