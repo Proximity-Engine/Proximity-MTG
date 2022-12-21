@@ -13,19 +13,20 @@ import dev.hephaestus.proximity.json.api.JsonElement;
 import dev.hephaestus.proximity.json.api.JsonObject;
 import dev.hephaestus.proximity.mtg.cards.BaseMagicCard;
 import dev.hephaestus.proximity.mtg.cards.MagicCard;
+import dev.hephaestus.proximity.mtg.cards.SingleFacedCard;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
     }
 
     @Override
-    public JsonElement toJson() {
+    public JsonElement saveState() {
         JsonObject.Mutable json = JsonObject.create();
 
         json.put("name", this.selector.cardName.getText());
@@ -198,17 +199,19 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
             if (this.selected != null && json.getString("id").equals(this.selected.getString("id"))) return;
 
             List<BaseMagicCard> cards = MagicCard.parse(json, ScryfallDataWidget.this.context.log());
-            ObservableList<Entry<BaseMagicCard>> currentValue = ScryfallDataWidget.this.entries.getValue();
+            ObservableList<Entry> currentValue = ScryfallDataWidget.this.entries.getValue();
 
             if (cards.size() == 1) {
                 if (currentValue.size() == 1) {
                     copyOptions(currentValue.get(0).get(), cards.get(0));
                 }
 
-                ScryfallDataWidget.this.entries.set(FXCollections.singletonObservableList(new SingleEntry(cards.get(0))));
+                ScryfallDataWidget.this.entries.set(FXCollections.singletonObservableList(new SingleEntry(this, cards.get(0))));
             } else if (!cards.isEmpty()) {
-                ObservableList<Entry<BaseMagicCard>> list = FXCollections.observableArrayList(new MultiEntry(cards.get(0)));
+                ObservableList<Entry> list = FXCollections.observableArrayList();
                 List<Node> nodes = new ArrayList<>();
+
+                list.add(new MultiEntry(cards.get(0)));
 
                 nodes.add(this);
                 nodes.add(list.get(0).getRootPane());
@@ -216,7 +219,7 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
                 for (int i = 1; i < cards.size(); ++i) {
                     MultiEntry entry = new MultiEntry(cards.get(i));
                     list.add(entry);
-                    nodes.add(entry.pane);
+                    nodes.add(entry.getRootPane());
                 }
 
                 if (currentValue.size() == list.size()) {
@@ -306,70 +309,6 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
                     this.collectorNumber.getItems().clear();
                     Selector.this.listener = ScryfallDataWidget.this::select;
                 });
-            }
-        }
-
-        private class SingleEntry extends DataWidget.Entry<BaseMagicCard> {
-            private SingleEntry(BaseMagicCard card) {
-                this.set(card);
-
-                Selector.this.listener = this::select;
-            }
-
-            @Override
-            public Pane getRootPane() {
-                return Selector.this;
-            }
-
-            @Override
-            public DataWidget<BaseMagicCard> getWidget() {
-                return ScryfallDataWidget.this;
-            }
-
-            @Override
-            public JsonElement toJson() {
-                return this.getValue().toJson();
-            }
-
-            private void select(MouseEvent event) {
-                Proximity.select(this);
-            }
-        }
-
-        private class MultiEntry extends DataWidget.Entry<BaseMagicCard> {
-            private final StackPane pane;
-
-            private MultiEntry(BaseMagicCard card) {
-                this.set(card);
-                Label label = new Label(card.getName());
-
-                label.setStyle("-fx-text-fill: #FFFFFFD0; -fx-prompt-text-fill: #FFFFFFA0;");
-
-                this.pane = new StackPane(label);
-
-                this.pane.setPadding(new Insets(5, 5, 5, 15));
-                this.pane.setOnMouseClicked(observable -> Proximity.select(this));
-
-                label.setOnMouseClicked(observable -> Proximity.select(this));
-
-                StackPane.setAlignment(label, Pos.CENTER_LEFT);
-
-                Selector.this.listener = ScryfallDataWidget.this::select;
-            }
-
-            @Override
-            public Pane getRootPane() {
-                return this.pane;
-            }
-
-            @Override
-            public DataWidget<BaseMagicCard> getWidget() {
-                return ScryfallDataWidget.this;
-            }
-
-            @Override
-            public JsonElement toJson() {
-                return this.getValue().toJson();
             }
         }
 

@@ -20,6 +20,7 @@ repositories {
         name = 'Quilt'
         url = 'https://maven.quiltmc.org/repository/release'
     }
+    mavenLocal()
     maven {
         url "https://hephaestus.dev/snapshot"
     }
