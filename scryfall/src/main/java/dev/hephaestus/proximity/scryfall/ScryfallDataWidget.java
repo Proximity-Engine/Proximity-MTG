@@ -13,7 +13,6 @@ import dev.hephaestus.proximity.json.api.JsonElement;
 import dev.hephaestus.proximity.json.api.JsonObject;
 import dev.hephaestus.proximity.mtg.cards.BaseMagicCard;
 import dev.hephaestus.proximity.mtg.cards.MagicCard;
-import dev.hephaestus.proximity.mtg.cards.SingleFacedCard;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
@@ -266,8 +265,8 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
                 this.printings.clear();
 
                 for (JsonElement card : printingJson.getArray("data")) {
-                    this.printings.computeIfAbsent(card.asObject().getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
-                            .add(card.asObject());
+                    this.printings.computeIfAbsent(((JsonObject) card).getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
+                            .add((JsonObject) card);
                 }
 
                 while (printingJson.getBoolean("has_more")) {
@@ -276,8 +275,8 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
                     printingJson = Json.parseObject(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
 
                     for (JsonElement card : printingJson.getArray("data")) {
-                        this.printings.computeIfAbsent(card.asObject().getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
-                                .add(card.asObject());
+                        this.printings.computeIfAbsent(((JsonObject) card).getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
+                                .add((JsonObject) card);
                     }
                 }
 
@@ -344,8 +343,8 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
                     Map<String, List<JsonObject>> printings = new LinkedHashMap<>();
 
                     for (JsonElement card : printingJson.getArray("data")) {
-                        printings.computeIfAbsent(card.asObject().getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
-                                .add(card.asObject());
+                        printings.computeIfAbsent(((JsonObject) card).getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
+                                .add((JsonObject) card);
                     }
 
                     while (printingJson.getBoolean("has_more")) {
@@ -354,8 +353,8 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
                         printingJson = Json.parseObject(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
 
                         for (JsonElement card : printingJson.getArray("data")) {
-                            printings.computeIfAbsent(card.asObject().getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
-                                    .add(card.asObject());
+                            printings.computeIfAbsent(((JsonObject) card).getString("set").toUpperCase(Locale.ROOT), s -> new ArrayList<>(1))
+                                    .add((JsonObject) card);
                         }
                     }
 

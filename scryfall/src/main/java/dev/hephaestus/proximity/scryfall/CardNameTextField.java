@@ -4,10 +4,7 @@ import dev.hephaestus.proximity.app.api.logging.Log;
 import dev.hephaestus.proximity.app.api.plugins.DataProvider;
 import dev.hephaestus.proximity.app.api.util.Task;
 import dev.hephaestus.proximity.app.api.Proximity;
-import dev.hephaestus.proximity.json.api.Json;
-import dev.hephaestus.proximity.json.api.JsonArray;
-import dev.hephaestus.proximity.json.api.JsonElement;
-import dev.hephaestus.proximity.json.api.JsonObject;
+import dev.hephaestus.proximity.json.api.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
@@ -88,7 +85,7 @@ public class CardNameTextField extends TextField {
         List<String> results = new ArrayList<>(data.size());
 
         for (JsonElement result : data) {
-          results.add(result.asString());
+          results.add(((JsonString) result).get());
         }
 
         return results;

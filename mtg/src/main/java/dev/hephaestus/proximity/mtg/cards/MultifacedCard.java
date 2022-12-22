@@ -20,7 +20,7 @@ public class MultifacedCard extends BaseMagicCard implements Iterable<CardFace> 
         for (int i = 0; i < faces.size(); ++i) {
             JsonObject.Mutable faceJson = json.mutableCopy();
 
-            faceJson.copyAll(faces.get(i).asObject());
+            faceJson.copyAll((JsonObject) faces.get(i));
 
             this.faces.add(new CardFace(faceJson));
         }

@@ -6,6 +6,7 @@ import dev.hephaestus.proximity.app.api.util.Result;
 import dev.hephaestus.proximity.json.api.Json;
 import dev.hephaestus.proximity.json.api.JsonArray;
 import dev.hephaestus.proximity.json.api.JsonObject;
+import dev.hephaestus.proximity.json.api.JsonString;
 import dev.hephaestus.proximity.mtg.data.Lang;
 import org.jetbrains.annotations.NotNull;
 
@@ -167,7 +168,7 @@ public final class Scryfall {
             JsonArray array = object.getArray("data");
             List<String> list = new ArrayList<>(array.size());
 
-            array.forEach(e -> list.add(e.asString()));
+            array.forEach(e -> list.add(((JsonString) e).get()));
 
             return Result.of(list);
         });

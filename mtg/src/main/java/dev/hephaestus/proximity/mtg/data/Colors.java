@@ -3,6 +3,7 @@ package dev.hephaestus.proximity.mtg.data;
 import com.google.common.collect.ImmutableList;
 import dev.hephaestus.proximity.json.api.JsonElement;
 import dev.hephaestus.proximity.json.api.JsonObject;
+import dev.hephaestus.proximity.json.api.JsonString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -103,8 +104,8 @@ public final class Colors implements Iterable<Color>, Colored {
 
         if (card.has("colors")) {
             for (JsonElement element : card.getArray("colors")) {
-                if (element.isString()) {
-                    String string = element.asString();
+                if (element instanceof JsonString s) {
+                    String string = s.get();
 
                     for (Color color : cs) {
                         if (color.initial.equalsIgnoreCase(string)) {
@@ -118,7 +119,7 @@ public final class Colors implements Iterable<Color>, Colored {
         if (card.getString("type_line").toLowerCase(Locale.ROOT).contains("land")) {
             if (card.has("produced_mana")) {
                 for (var element : card.getArray("produced_mana")) {
-                    String string = element.asString();
+                    String string = ((JsonString) element).get();
 
                     if (MANA_COLORS.stream().map(Color::name).anyMatch(c -> c.equals(string))) {
                         for (Color color : cs) {
