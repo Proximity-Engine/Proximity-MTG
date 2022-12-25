@@ -1,21 +1,22 @@
 package dev.hephaestus.proximity.mtg.data;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public enum SuperType {
     BASIC, ELITE, HOST, LEGENDARY, ONGOING, SNOW, WORLD;
 
-    static ImmutableSet<SuperType> parse(String typeLine) {
-        ImmutableSet.Builder<SuperType> builder = ImmutableSet.builder();
+    static Set<SuperType> parse(String typeLine) {
+        Set<SuperType> types = new TreeSet<>();
 
         for (String string : typeLine.split("\u2014")[0].split(" ")) {
             for (SuperType type : SuperType.values()) {
                 if (type.name().equalsIgnoreCase(string)) {
-                    builder.add(type);
+                    types.add(type);
                 }
             }
         }
 
-        return builder.build();
+        return types;
     }
 }

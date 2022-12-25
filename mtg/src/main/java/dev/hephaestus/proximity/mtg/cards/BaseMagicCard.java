@@ -40,11 +40,8 @@ public class BaseMagicCard extends RenderJob<JsonObject> implements MagicCard {
 
     private final Colors colors;
 
-    protected final JsonObject json;
-
     public BaseMagicCard(JsonObject json) {
         super(json);
-        this.json = json;
         this.colors = Colors.parse(this.json);
     }
 

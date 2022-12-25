@@ -1,6 +1,7 @@
 package dev.hephaestus.proximity.mtg.data;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public enum Type {
     ARTIFACT,
@@ -18,17 +19,17 @@ public enum Type {
     TRIBAL,
     VANGUARD;
 
-    static ImmutableSet<Type> parse(String typeLine) {
-        ImmutableSet.Builder<Type> builder = ImmutableSet.builder();
+    static Set<Type> parse(String typeLine) {
+        Set<Type> types = new TreeSet<>();
 
         for (String string : typeLine.split("\u2014")[0].split(" ")) {
             for (Type type : Type.values()) {
                 if (type.name().equalsIgnoreCase(string)) {
-                    builder.add(type);
+                    types.add(type);
                 }
             }
         }
 
-        return builder.build();
+        return types;
     }
 }

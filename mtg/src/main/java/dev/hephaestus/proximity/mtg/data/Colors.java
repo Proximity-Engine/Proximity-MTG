@@ -1,6 +1,5 @@
 package dev.hephaestus.proximity.mtg.data;
 
-import com.google.common.collect.ImmutableList;
 import dev.hephaestus.proximity.json.api.JsonElement;
 import dev.hephaestus.proximity.json.api.JsonObject;
 import dev.hephaestus.proximity.json.api.JsonString;
@@ -18,16 +17,16 @@ public final class Colors implements Iterable<Color>, Colored {
             "Forest", Color.GREEN
     );
 
-    private final ImmutableList<Color> colors;
+    private final List<Color> colors;
     private final boolean hybrid;
 
-    public Colors(ImmutableList<Color> colors, boolean hybrid) {
+    public Colors(List<Color> colors, boolean hybrid) {
         this.colors = colors;
         this.hybrid = hybrid;
     }
 
     public Colors(Color... colors) {
-        this(ImmutableList.copyOf(colors), false);
+        this(Arrays.asList(colors), false);
     }
 
     @Override
@@ -175,6 +174,6 @@ public final class Colors implements Iterable<Color>, Colored {
         }
 
 
-        return new Colors(ImmutableList.copyOf(colors), hybrid);
+        return new Colors(new ArrayList<>(colors), hybrid);
     }
 }

@@ -54,7 +54,7 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
 
     @Override
     public JsonElement saveState() {
-        JsonObject.Mutable json = JsonObject.create();
+        JsonObject json = JsonObject.create();
 
         json.put("name", this.selector.cardName.getText());
 

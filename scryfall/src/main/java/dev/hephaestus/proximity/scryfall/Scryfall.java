@@ -102,8 +102,8 @@ public final class Scryfall {
         }
     }
 
-    private static Result<JsonObject.Mutable> fetchMutable(Log log, URI uri) {
-        return fetch(log, uri).then(json -> Result.of(json.mutableCopy()));
+    private static Result<JsonObject> fetchMutable(Log log, URI uri) {
+        return fetch(log, uri).then(Result::of);
     }
 
     @NotNull
@@ -111,7 +111,7 @@ public final class Scryfall {
         Result<JsonObject> result;
 
         try {
-            JsonObject json = Json.parseObject(key.localFile()).toImmutable();
+            JsonObject json = Json.parseObject(key.localFile());
             result = Result.of(json);
 
             cache(key.localFile(), json);
@@ -136,7 +136,7 @@ public final class Scryfall {
             return fetch(log, uri);
         } else {
             // Otherwise, fetch and transform the data
-            Result<JsonObject.Mutable> card = fetchMutable(log, uri);
+            Result<JsonObject> card = fetchMutable(log, uri);
 
             if (card.isOk()) {
                 Result<JsonObject> set = getSet(log, card.get().getString("set"));
@@ -146,7 +146,7 @@ public final class Scryfall {
                     try {
                         card.get().put("set", set.get());
                         cache(key.localFile(), card.get());
-                        CACHE.put(key, Result.of(card.get().toImmutable()));
+                        CACHE.put(key, Result.of(card.get()));
 
                         return CACHE.get(key);
                     } catch (IOException e) {

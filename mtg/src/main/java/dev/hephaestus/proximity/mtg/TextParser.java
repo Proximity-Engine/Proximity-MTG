@@ -1,6 +1,5 @@
 package dev.hephaestus.proximity.mtg;
 
-import com.google.common.collect.ImmutableList;
 import dev.hephaestus.proximity.app.api.text.TextComponent;
 import dev.hephaestus.proximity.app.api.text.TextStyle;
 import dev.hephaestus.proximity.app.api.text.Word;
@@ -25,7 +24,7 @@ public final class TextParser {
         this.transforms = transforms;
     }
 
-    public final ImmutableList<Word> apply(String input, BaseMagicCard card, TextStyle baseStyle) {
+    public List<Word> apply(String input, BaseMagicCard card, TextStyle baseStyle) {
         for (Transform transform : this.transforms) {
             input = transform.transform(card, input);
         }
@@ -168,13 +167,13 @@ public final class TextParser {
 
         job.completeWord();
 
-        ImmutableList.Builder<Word> builder = ImmutableList.builder();
+        List<Word> words = new ArrayList<>();
 
         for (var list : job.result) {
-            builder.add(new Word(list));
+            words.add(new Word(list));
         }
 
-        return builder.build();
+        return words;
     }
 
     private final class Job {

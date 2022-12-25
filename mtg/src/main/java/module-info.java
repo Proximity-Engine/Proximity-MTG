@@ -4,7 +4,6 @@ module dev.hephaestus.proximity.mtg {
     requires dev.hephaestus.proximity.json;
     requires dev.hephaestus.proximity.utils;
     requires javafx.graphics;
-    requires com.google.common;
     requires org.jetbrains.annotations;
 
     exports dev.hephaestus.proximity.mtg;

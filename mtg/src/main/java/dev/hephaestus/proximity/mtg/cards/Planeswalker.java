@@ -1,21 +1,22 @@
 package dev.hephaestus.proximity.mtg.cards;
 
-import com.google.common.collect.ImmutableList;
 import dev.hephaestus.proximity.json.api.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Planeswalker extends BaseMagicCard {
     private static final Pattern ABILITY = Pattern.compile("^(?<cost>([+\u2212][0-9X]+)|(0)): (?<effect>.+)");
 
-    private final ImmutableList<Ability> abilities;
+    private final List<Ability> abilities;
     private final int abilitiesLength;
 
     public Planeswalker(JsonObject json) {
         super(json);
 
-        ImmutableList.Builder<Ability> abilities = ImmutableList.builder();
+        List<Ability> abilities = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
         int abilitiesLength = 0;
 
@@ -45,11 +46,11 @@ public class Planeswalker extends BaseMagicCard {
             abilities.add(new Ability(null, builder.toString()));
         }
 
-        this.abilities = abilities.build();
+        this.abilities = abilities;
         this.abilitiesLength = abilitiesLength;
     }
 
-    public ImmutableList<Ability> getAbilities() {
+    public List<Ability> getAbilities() {
         return this.abilities;
     }
 

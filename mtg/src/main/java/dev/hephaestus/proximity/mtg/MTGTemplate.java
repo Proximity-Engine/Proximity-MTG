@@ -1,6 +1,5 @@
 package dev.hephaestus.proximity.mtg;
 
-import com.google.common.collect.ImmutableList;
 import dev.hephaestus.proximity.app.api.Parent;
 import dev.hephaestus.proximity.app.api.Template;
 import dev.hephaestus.proximity.app.api.rendering.elements.Image;
@@ -73,11 +72,11 @@ public abstract class MTGTemplate<D extends BaseMagicCard> extends Template<D> {
         this.defaultSymbols.putIfAbsent(representation, word);
     }
 
-    protected final ImmutableList<Word> getOracleText(D card, TextStyle baseStyle) {
+    protected final List<Word> getOracleText(D card, TextStyle baseStyle) {
         return this.oracleTextParser.apply(card.json().getString("oracle_text"), card, baseStyle);
     }
 
-    protected final ImmutableList<Word> getFlavorText(D card, TextStyle baseStyle) {
+    protected final List<Word> getFlavorText(D card, TextStyle baseStyle) {
         return this.flavorTextParser.apply(card.json().getString("flavor_text"), card, baseStyle);
     }
 
