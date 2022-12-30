@@ -3,7 +3,7 @@ package dev.hephaestus.proximity.scryfall;
 
 import dev.hephaestus.proximity.app.api.plugins.DataProvider;
 import dev.hephaestus.proximity.app.api.plugins.ImportHandler;
-import dev.hephaestus.proximity.mtg.cards.BaseMagicCard;
+import dev.hephaestus.proximity.mtg.Card;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,12 +18,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public class ScryfallDataProvider implements DataProvider<BaseMagicCard> {
+public class ScryfallDataProvider implements DataProvider<Card> {
     private final DeckListImporter importer = new DeckListImporter();
 
     @Override
-    public Class<BaseMagicCard> getDataClass() {
-        return BaseMagicCard.class;
+    public Class<Card> getDataClass() {
+        return Card.class;
     }
 
     @Override

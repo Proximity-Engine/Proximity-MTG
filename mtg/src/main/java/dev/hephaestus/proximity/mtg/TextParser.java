@@ -3,20 +3,21 @@ package dev.hephaestus.proximity.mtg;
 import dev.hephaestus.proximity.app.api.text.TextComponent;
 import dev.hephaestus.proximity.app.api.text.TextStyle;
 import dev.hephaestus.proximity.app.api.text.Word;
-import dev.hephaestus.proximity.mtg.cards.BaseMagicCard;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public final class TextParser {
-    private final MTGTemplate<?> template;
+    private final MTGTemplate template;
     private final String newLine;
     private final boolean italicByDefault;
     private final String contextName;
     private final Transform[] transforms;
 
-    public TextParser(MTGTemplate<?> template, String newLine, boolean italicByDefault, String contextName, Transform... transforms) {
+    public TextParser(MTGTemplate template, String newLine, boolean italicByDefault, String contextName, Transform... transforms) {
         this.template = template;
         this.newLine = newLine;
         this.italicByDefault = italicByDefault;
@@ -24,7 +25,7 @@ public final class TextParser {
         this.transforms = transforms;
     }
 
-    public List<Word> apply(String input, BaseMagicCard card, TextStyle baseStyle) {
+    public ObservableList<Word> apply(String input, Card card, TextStyle baseStyle) {
         for (Transform transform : this.transforms) {
             input = transform.transform(card, input);
         }
@@ -35,7 +36,7 @@ public final class TextParser {
         characters: for (i = 0; i < n; ++i) {
             int c = input.codePointAt(i);
 
-            symbols: for (var entry : this.template.symbolsByContext.getOrDefault(this.contextName, Collections.emptyMap()).entrySet()) {
+            symbols: for (var entry : this.template.symbols.symbolsByContext.getOrDefault(this.contextName, Collections.emptyMap()).entrySet()) {
                 for (int j = 0; j < entry.getKey().length() && j + i < n; ++j) {
                     if (entry.getKey().charAt(j) != input.codePointAt(j + i)) {
                         continue symbols;
@@ -50,7 +51,7 @@ public final class TextParser {
                 continue characters;
             }
 
-            symbols: for (var entry : this.template.defaultSymbols.entrySet()) {
+            symbols: for (var entry : this.template.symbols.defaultSymbols.entrySet()) {
                 for (int j = 0; j < entry.getKey().length() && j + i < n; ++j) {
                     if (entry.getKey().charAt(j) != input.codePointAt(j + i)) {
                         continue symbols;
@@ -67,7 +68,7 @@ public final class TextParser {
 
             switch (c) {
                 case '(' -> {
-                    if (card.getOption(MTGOptions.SHOW_REMINDER_TEXT)) {
+                    if (card.getOption(MTGOptions.SHOW_REMINDER_TEXT).getValue()) {
                         job.italic = true;
                         job.append(c);
                     } else {
@@ -167,7 +168,7 @@ public final class TextParser {
 
         job.completeWord();
 
-        List<Word> words = new ArrayList<>();
+        ObservableList<Word> words = FXCollections.observableArrayList();
 
         for (var list : job.result) {
             words.add(new Word(list));
@@ -222,6 +223,6 @@ public final class TextParser {
     }
 
     interface Transform {
-        String transform(BaseMagicCard card, String input);
+        String transform(Card card, String input);
     }
 }

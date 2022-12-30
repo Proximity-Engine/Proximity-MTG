@@ -1,13 +1,14 @@
 package dev.hephaestus.proximity.mtg.cards;
 
 import dev.hephaestus.proximity.json.api.JsonObject;
+import dev.hephaestus.proximity.mtg.Card;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Planeswalker extends BaseMagicCard {
+public class Planeswalker extends Card {
     private static final Pattern ABILITY = Pattern.compile("^(?<cost>([+\u2212][0-9X]+)|(0)): (?<effect>.+)");
 
     private final List<Ability> abilities;

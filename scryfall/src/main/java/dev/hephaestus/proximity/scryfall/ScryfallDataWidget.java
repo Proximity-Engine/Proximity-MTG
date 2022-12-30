@@ -2,19 +2,19 @@ package dev.hephaestus.proximity.scryfall;
 
 import dev.hephaestus.proximity.app.api.Option;
 import dev.hephaestus.proximity.app.api.Proximity;
-import dev.hephaestus.proximity.app.api.RenderJob;
 import dev.hephaestus.proximity.app.api.logging.ExceptionUtil;
 import dev.hephaestus.proximity.app.api.logging.Log;
 import dev.hephaestus.proximity.app.api.plugins.DataProvider;
 import dev.hephaestus.proximity.app.api.plugins.DataWidget;
+import dev.hephaestus.proximity.app.api.rendering.RenderData;
 import dev.hephaestus.proximity.app.api.util.Task;
 import dev.hephaestus.proximity.json.api.Json;
 import dev.hephaestus.proximity.json.api.JsonElement;
 import dev.hephaestus.proximity.json.api.JsonObject;
-import dev.hephaestus.proximity.mtg.cards.BaseMagicCard;
-import dev.hephaestus.proximity.mtg.cards.MagicCard;
+import dev.hephaestus.proximity.mtg.Card;
 import javafx.application.Platform;
 import javafx.beans.Observable;
+import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +37,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
+public class ScryfallDataWidget extends DataWidget<Card> {
     private final VBox root = new VBox();
     private final Selector selector;
 
@@ -197,7 +197,7 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
         private void select(JsonObject json) {
             if (this.selected != null && json.getString("id").equals(this.selected.getString("id"))) return;
 
-            List<BaseMagicCard> cards = MagicCard.parse(json, ScryfallDataWidget.this.context.log());
+            List<Card> cards = Card.parse(json, ScryfallDataWidget.this.context.log());
             ObservableList<Entry> currentValue = ScryfallDataWidget.this.entries.getValue();
 
             if (cards.size() == 1) {
@@ -240,14 +240,14 @@ public class ScryfallDataWidget extends DataWidget<BaseMagicCard> {
             this.selected = json;
         }
 
-        private static void copyOptions(RenderJob<?> job1, RenderJob<?> job2) {
+        private static void copyOptions(RenderData job1, RenderData job2) {
             for (var option : job1.options()) {
-                copyOption(option, job1, job2);
+                copyOption((Map.Entry) option, job1, job2);
             }
         }
 
-        private static <T> void copyOption(Option<T, ?, ?> option, RenderJob<?> job1, RenderJob<?> job2) {
-            job2.getOptionProperty(option).setValue(job1.getOption(option));
+        private static <T> void copyOption(Map.Entry<Option<T, ?, ?>, Property<T>> entry, RenderData job1, RenderData job2) {
+            job2.getOption(entry.getKey()).setValue(entry.getValue().getValue());
         }
 
         private void populatePrintings(boolean update) {

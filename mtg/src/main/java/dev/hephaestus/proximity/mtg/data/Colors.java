@@ -1,13 +1,23 @@
 package dev.hephaestus.proximity.mtg.data;
 
+import dev.hephaestus.proximity.json.api.JsonArray;
 import dev.hephaestus.proximity.json.api.JsonElement;
 import dev.hephaestus.proximity.json.api.JsonObject;
 import dev.hephaestus.proximity.json.api.JsonString;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-public final class Colors implements Iterable<Color>, Colored {
+public final class Colors implements Iterable<Color>, Colored, Observable {
     private static final Set<Color> MANA_COLORS = EnumSet.allOf(Color.class);
     private static final Map<String, Color> LAND_TYPES = Map.of(
             "Plains", Color.WHITE,
@@ -17,10 +27,14 @@ public final class Colors implements Iterable<Color>, Colored {
             "Forest", Color.GREEN
     );
 
-    private final List<Color> colors;
-    private final boolean hybrid;
+    private final List<InvalidationListener> listeners = new ArrayList<>();
+
+    private boolean hybrid;
+
+    private List<Color> colors;
 
     public Colors(List<Color> colors, boolean hybrid) {
+        colors.sort(Color::compare);
         this.colors = colors;
         this.hybrid = hybrid;
     }
@@ -98,11 +112,33 @@ public final class Colors implements Iterable<Color>, Colored {
     }
 
     public static Colors parse(JsonObject card) {
+        JsonArray printedColors = card.get("colors");
+        JsonString typeLine = card.get("type_line");
+        JsonArray producedMana = card.get("produced_mana");
+        JsonString oracleText = card.get("oracle_text");
+        JsonString manaCost = card.get("mana_cost");
+        JsonString rarity = card.get("rarity");
+
+        Colors colors = new Colors();
+
+        colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity);
+
+        printedColors.addListener(observable -> colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity));
+        typeLine.addListener(observable -> colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity));
+        producedMana.addListener(observable -> colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity));
+        oracleText.addListener(observable -> colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity));
+        manaCost.addListener(observable -> colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity));
+        rarity.addListener(observable -> colors.parse(printedColors, typeLine, producedMana, oracleText, manaCost, rarity));
+
+        return colors;
+    }
+
+    private void parse(JsonArray printedColors, JsonString typeLine, JsonArray producedMana, JsonString oracleText, JsonString manaCost, JsonString rarity) {
         List<Color> colors = new ArrayList<>();
         Color[] cs = Color.values();
 
-        if (card.has("colors")) {
-            for (JsonElement element : card.getArray("colors")) {
+        if (printedColors != null) {
+            for (JsonElement element : printedColors) {
                 if (element instanceof JsonString s) {
                     String string = s.get();
 
@@ -115,9 +151,9 @@ public final class Colors implements Iterable<Color>, Colored {
             }
         }
 
-        if (card.getString("type_line").toLowerCase(Locale.ROOT).contains("land")) {
-            if (card.has("produced_mana")) {
-                for (var element : card.getArray("produced_mana")) {
+        if (typeLine.get().toLowerCase(Locale.ROOT).contains("land")) {
+            if (producedMana != null) {
+                for (var element : producedMana) {
                     String string = ((JsonString) element).get();
 
                     if (MANA_COLORS.stream().map(Color::name).anyMatch(c -> c.equals(string))) {
@@ -130,8 +166,8 @@ public final class Colors implements Iterable<Color>, Colored {
                 }
             }
 
-            if (card.has("oracle_text")) {
-                String oracle = card.getString("oracle_text");
+            if (oracleText != null) {
+                String oracle = oracleText.get();
 
                 for (var entry : LAND_TYPES.entrySet()) {
                     if (oracle.contains(entry.getKey())) {
@@ -139,7 +175,7 @@ public final class Colors implements Iterable<Color>, Colored {
                     }
                 }
 
-                if (oracle.contains("of any color") || (oracle.contains("Search your library for a basic land card, put it onto the battlefield") && isRare(card.getString("rarity")))) {
+                if (oracle.contains("of any color") || (oracle.contains("Search your library for a basic land card, put it onto the battlefield") && isRare(rarity.get()))) {
                     colors.addAll(LAND_TYPES.values());
                 }
 
@@ -159,21 +195,34 @@ public final class Colors implements Iterable<Color>, Colored {
 
         colors.sort(Color::compare);
 
-        boolean hybrid = false;
+        this.hybrid = false;
 
         if (colors.size() == 2) {
             hybrid = true;
 
-            if (card.has("mana_cost") && !card.getString("mana_cost").isEmpty()) {
-                String manaCost = card.getString("mana_cost");
+            if (manaCost != null && !manaCost.get().isEmpty()) {
+                String mc = manaCost.get();
 
-                if (manaCost.contains("{W}") || manaCost.contains("{U}") || manaCost.contains("{B}") || manaCost.contains("{R}") || manaCost.contains("{G}")) {
+                if (mc.contains("{W}") || mc.contains("{U}") || mc.contains("{B}") || mc.contains("{R}") || mc.contains("{G}")) {
                     hybrid = false;
                 }
             }
         }
 
+        this.colors = colors;
 
-        return new Colors(new ArrayList<>(colors), hybrid);
+        for (InvalidationListener listener : this.listeners) {
+            listener.invalidated(this);
+        }
+    }
+
+    @Override
+    public void addListener(InvalidationListener listener) {
+        this.listeners.add(listener);
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+        this.listeners.remove(listener);
     }
 }

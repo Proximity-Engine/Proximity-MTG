@@ -2,13 +2,14 @@ package dev.hephaestus.proximity.mtg.cards;
 
 import dev.hephaestus.proximity.json.api.JsonArray;
 import dev.hephaestus.proximity.json.api.JsonObject;
+import dev.hephaestus.proximity.mtg.Card;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MultifacedCard extends BaseMagicCard implements Iterable<CardFace> {
+public class MultifacedCard extends Card implements Iterable<CardFace> {
     private final List<CardFace> faces;
 
     public MultifacedCard(JsonObject json) {
@@ -26,7 +27,7 @@ public class MultifacedCard extends BaseMagicCard implements Iterable<CardFace> 
         }
     }
 
-    protected final int numberOfFaces() {
+    public final int numberOfFaces() {
         return this.faces.size();
     }
 
